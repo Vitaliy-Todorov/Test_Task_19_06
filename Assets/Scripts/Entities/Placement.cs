@@ -5,7 +5,7 @@ namespace Entities
 {
     public class Placement
     {
-        private Building _building;
+        private MoveBuilding _moveBuilding;
         private int _layerMask;
 
         public Placement()
@@ -20,17 +20,17 @@ namespace Entities
             {
                 await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0));
                 
-                if (_building && _building.Placement())
+                if (_moveBuilding && _moveBuilding.Placement())
                 {
-                    _building = null;
+                    _moveBuilding = null;
                     continue;
                 }
                 
                 RaycastHit2D hit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Input.mousePosition), Mathf.Infinity, _layerMask);
                 if (hit)
                 {
-                    _building = hit.transform.GetComponent<Building>();
-                    _building.IsMoving();
+                    _moveBuilding = hit.transform.GetComponent<MoveBuilding>();
+                    _moveBuilding.IsMoving();
                 }
             }
         }
