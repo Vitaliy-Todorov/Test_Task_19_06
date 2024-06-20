@@ -1,0 +1,71 @@
+# ===========================
+# Default Collab Ignore Rules
+# ===========================
+
+# OS Generated
+# ============
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+[Tt]humbs.db
+[Dd]esktop.ini
+
+# Visual Studio / MonoDevelop generated
+# =====================================
+/.vs/
+/.idea/
+/ExportedObj/
+*.userprefs
+*.csproj
+*.pidb
+*.suo
+*.sln
+*.user
+*.unityproj
+*.booproj
+
+# Unity generated
+# ===============
+/[Tt]emp/
+/[Ll]ibrary/
+/[Ll]ogs/
+/[Oo]bj/
+/[Uu]ser[Ss]ettings/
+sysinfo.txt
+*.stackdump
+
+# Builds
+# ===============
+/[Bb]uild*/
+
+# Assets
+# ===============
+/[Aa]ssets/AmplifyShaderEditor/
+/[Aa]ssets/BuildReport/
+/[Aa]ssets/_TerrainAutoUpgrade/
+/[Aa]ssets/_TerrainAutoUpgrade.meta
+
+# Temporary auto-generated Android Assets
+/[Aa]ssets/[Ss]treamingAssets/aa.meta
+/[Aa]ssets/[Ss]treamingAssets/aa/*
+[Rr]elease
+[Rr]elease32
+[Rr]elease.zip
+[Rr]eleaseWebGL
+[Ww]ebGL/*
+[Ss]erver/*
+
+Assets/Neva/Prefabs/Menu/Menu-Users-Details-Results_BACKUP_796.prefab
+Assets/Neva/Prefabs/Menu/Menu-Users-Details-Results_BACKUP_796.prefab.meta
+Assets/Neva/Prefabs/Menu/Menu-Users-Details-Results_BASE_796.prefab
+Assets/Neva/Prefabs/Menu/Menu-Users-Details-Results_BASE_796.prefab.meta
+Assets/Neva/Prefabs/Menu/Menu-Users-Details-Results_LOCAL_796.prefab
+Assets/Neva/Prefabs/Menu/Menu-Users-Details-Results_LOCAL_796.prefab.meta
+Assets/Neva/Prefabs/Menu/Menu-Users-Details-Results_REMOTE_796.prefab
+Assets/Neva/Prefabs/Menu/Menu-Users-Details-Results_REMOTE_796.prefab.meta
+Assets/Neva/Prefabs/Menu/Menu-Users-Details-Results.prefab.orig
+Assets/Neva/Prefabs/Menu/Menu-Users-Details-Results.prefab.orig.meta
+Assets/Neva/Scenes/NevaV2-GUI.unity.orig
+Assets/Neva/Scenes/NevaV2-GUI.unity.orig.meta
