@@ -14,15 +14,19 @@ namespace Entities
                 return;
             
             transform.position = Helper.WorldMousePosition();
-
-            if (Input.GetMouseButtonDown(0)) 
-                Placement();
         }
 
-        public void Placement()
+        public void IsMoving()
+        {
+            IsPlace = false;
+        }
+
+        public bool Placement()
         {
             IsPlace = true;
             OnPlaced?.Invoke();
+
+            return true;
         }
     }
 }

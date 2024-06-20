@@ -1,32 +1,38 @@
-using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Entities
 {
-    public class Placement : MonoBehaviour
+    public class Placement
     {
         private Building _building;
+        private int _layerMask;
 
-        private void Update()
+        public Placement()
         {
-            if (!_building && Input.GetMouseButtonDown(0))
-            {
-                int layerMask = 1 << 6;
-                // layerMask = ~layerMask;
-                RaycastHit hit;
-                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
-                {
-                    _building.OnPlaced += BuildingPlaced;
-                    Debug.Log("Did hit");
-                }
-            }
+            _layerMask = 1 << LayerMask.NameToLayer("Building");
+            Update().Forget();
         }
 
-        private void BuildingPlaced()
+        private async UniTask Update()
         {
-            _building.OnPlaced -= BuildingPlaced;
-            _building = null;
+            while (true)
+            {
+                await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0));
+                
+                if (_building && _building.Placement())
+                {
+                    _building = null;
+                    continue;
+                }
+                
+                RaycastHit2D hit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Input.mousePosition), Mathf.Infinity, _layerMask);
+                if (hit)
+                {
+                    _building = hit.transform.GetComponent<Building>();
+                    _building.IsMoving();
+                }
+            }
         }
     }
 }
