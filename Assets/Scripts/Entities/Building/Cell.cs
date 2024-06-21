@@ -1,3 +1,4 @@
+using Entities.Building.Components;
 using UnityEngine;
 
 namespace Entities.Building

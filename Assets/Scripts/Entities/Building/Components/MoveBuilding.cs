@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Entities.Building
+namespace Entities.Building.Components
 {
     [RequireComponent(typeof(Entities.Building.Building))]
     public class MoveBuilding : MonoBehaviour
@@ -11,6 +11,7 @@ namespace Entities.Building
         [field: SerializeField] public Entities.Building.Building Building { get; private set; }
         [field: SerializeField] public bool IsPlace { get; private set; }
         [field: SerializeField] public Cell SelectedCell { get; private set; }
+
         [field: SerializeField] private Cell _lastCell;
 
         private void Awake()

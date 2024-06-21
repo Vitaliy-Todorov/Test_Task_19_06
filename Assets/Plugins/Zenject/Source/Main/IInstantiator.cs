@@ -49,6 +49,8 @@ namespace Zenject
         GameObject InstantiatePrefab(
             UnityEngine.Object prefab, Transform parentTransform);
         GameObject InstantiatePrefab(
+            UnityEngine.Object prefab, Vector3 position, Quaternion rotation);
+        GameObject InstantiatePrefab(
             UnityEngine.Object prefab, Vector3 position, Quaternion rotation, Transform parentTransform);
 
         // Create a new game object from a resource path and fill in dependencies for all children

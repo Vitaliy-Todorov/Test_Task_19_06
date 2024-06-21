@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Entities.Building.Components;
 using UnityEngine;
 
 namespace Entities.Building
