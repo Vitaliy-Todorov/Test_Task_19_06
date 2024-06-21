@@ -1,13 +1,11 @@
-using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace Entities
+namespace Entities.Building
 {
     public class Cell : MonoBehaviour
     {
-        [field: SerializeField] private Building _building;
-        private Building _selectedBuilding;
+        [field: SerializeField] private Entities.Building.Building _building;
+        private Entities.Building.Building _selectedBuilding;
 
         private void Awake()
         {
@@ -19,7 +17,7 @@ namespace Entities
 
         private void OnCollisionEnter2D(Collision2D col)
         {
-            _selectedBuilding = col.gameObject.GetComponent<Building>();
+            _selectedBuilding = col.gameObject.GetComponent<Entities.Building.Building>();
             _building.MoveBuilding.OnPlaced -= PlaceBuilding;
             _selectedBuilding.MoveBuilding.OnPlaced += PlaceBuilding;
         }

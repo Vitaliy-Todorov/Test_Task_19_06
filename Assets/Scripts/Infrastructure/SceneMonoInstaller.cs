@@ -1,4 +1,5 @@
 using Entities;
+using Entities.Building;
 using Zenject;
 
 namespace Infrastructure

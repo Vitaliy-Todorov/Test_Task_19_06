@@ -1,7 +1,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace Entities
+namespace Entities.Building
 {
     public class Placement
     {

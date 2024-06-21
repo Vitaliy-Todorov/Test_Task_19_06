@@ -1,21 +1,21 @@
 using System;
 using UnityEngine;
 
-namespace Entities
+namespace Entities.Building
 {
-    [RequireComponent(typeof(Building))]
+    [RequireComponent(typeof(Entities.Building.Building))]
     public class MoveBuilding : MonoBehaviour
     {
         public event Action<MoveBuilding> OnPlaced;
 
-        [field: SerializeField] public Building Building { get; private set; }
+        [field: SerializeField] public Entities.Building.Building Building { get; private set; }
         [field: SerializeField] public bool IsPlace { get; private set; }
         [field: SerializeField] public Cell SelectedCell { get; private set; }
         [field: SerializeField] private Cell _lastCell;
 
         private void Awake()
         {
-            Building = GetComponent<Building>();
+            Building = GetComponent<Entities.Building.Building>();
         }
 
         private void Update()
