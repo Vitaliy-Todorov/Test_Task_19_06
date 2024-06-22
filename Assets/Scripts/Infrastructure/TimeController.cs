@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Zenject;
 
 namespace ProjectContext
 {
@@ -9,6 +10,7 @@ namespace ProjectContext
         public Action OnPlay;
         public Action<float> OnSetTimeSpeed;
         
+        public DateTime FirstLaunchDate;
         public bool IsPause { get; private set; }
 
         public float CurrentTime => Time.time;
@@ -22,11 +24,14 @@ namespace ProjectContext
             }
         }
 
+        private const string FirstLaunchDateKey = "FirstLaunchDate";
+        
         private float _timeToPause;
 
         public TimeController()
         {
             SetTimeSpeed(Time.timeScale);
+            LoadFirstLaunchDate();
         }
 
         public void Pause()
@@ -49,6 +54,25 @@ namespace ProjectContext
         {
             TimeSpeed = timeSpeed;
             _timeToPause = timeSpeed;
+        }
+
+        private void LoadFirstLaunchDate()
+        {
+            FirstLaunchDate = DateTime.Now;
+            if (PlayerPrefs.HasKey(FirstLaunchDateKey))
+            {
+                FirstLaunchDate = DateTime.Parse(
+                    PlayerPrefs.GetString(FirstLaunchDateKey));
+                
+                Debug.Log($"Load FirstLaunchDate: {FirstLaunchDate}");
+            }
+            else
+            {
+                string firstLaunchDateString = FirstLaunchDate.ToString("G");
+                PlayerPrefs.SetString(FirstLaunchDateKey, firstLaunchDateString);
+                
+                Debug.Log($"Save FirstLaunchDate: {FirstLaunchDate}");
+            }
         }
     }
 }

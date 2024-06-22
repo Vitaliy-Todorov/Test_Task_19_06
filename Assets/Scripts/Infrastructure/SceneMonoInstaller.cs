@@ -1,22 +1,23 @@
+using System;
+using System.Globalization;
 using Entities.Building;
 using ProjectContext;
 using ProjectContext.StaticDataServiceNamespace;
 using SceneContext;
+using UnityEngine;
 using Zenject;
 
 namespace Infrastructure
 {
+    public static class Constants
+    {
+        public const string FirstLaunchDateKey = "FirstLaunchDate";
+    }
+
     public class SceneMonoInstaller : MonoInstaller
     {
-        // [SerializeField] private NavMeshSurface _surface;
-        
         public override void InstallBindings()
         {
-            /*Container
-                .Bind<NavMeshSurface>()
-                .FromInstance(_surface)
-                .AsSingle();*/
-            
             Container
                 .BindInterfacesAndSelfTo<StaticDataService>()
                 .FromNew()
