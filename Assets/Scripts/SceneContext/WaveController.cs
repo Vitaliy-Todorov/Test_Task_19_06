@@ -10,6 +10,7 @@ namespace SceneContext
     public class WaveController
     {
         public Action<int> OnWaveStart;
+        public Action<int> OnWavesDropped ;
         
         private StaticDataService _staticDataService;
         private TimeController _timeController;
@@ -25,6 +26,12 @@ namespace SceneContext
 
             _levelStaticData = _staticDataService.GetGameModelStaticData(GameModelName.GameModelTest);
             WaveStart().Forget();
+        }
+
+        public void DropOn(int howMuchToDrop)
+        {
+            _wavesCount -= howMuchToDrop;
+            OnWavesDropped?.Invoke(_wavesCount);
         }
 
         private async UniTask WaveStart()

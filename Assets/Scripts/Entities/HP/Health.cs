@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Entities.HP
 {
-    public class Health : MonoBehaviour
+    public class Health : MonoBehaviour, IHealth
     {
         [SerializeField] private float _value;
         [SerializeField] private float _maxValue;

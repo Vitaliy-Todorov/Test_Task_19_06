@@ -15,15 +15,15 @@ namespace Entities.Building
         
         private BuildingsSpawner _buildingsSpawner;
 
+        [Inject]
+        public virtual void Construct(BuildingsSpawner buildingsSpawner) => 
+            _buildingsSpawner = buildingsSpawner;
+
         private void Awake()
         {
             ID = Guid.NewGuid().ToString();
             _buildingsSpawner.BuildingWasCreated(ID, transform);
         }
-
-        [Inject]
-        public virtual void Construct(BuildingsSpawner buildingsSpawner) => 
-            _buildingsSpawner = buildingsSpawner;
 
         private void OnDestroy() => 
             _buildingsSpawner.BuildingWasDestroyed(ID);

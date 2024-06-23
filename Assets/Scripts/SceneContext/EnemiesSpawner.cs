@@ -25,6 +25,7 @@ namespace SceneContext
         private StaticDataService _staticDataService;
         private WaveController _waveController;
         private TimeController _timeController;
+        private GameModelStaticData _gameModelStaticData;
 
         private EnemiesSpawner(DiContainer diContainer, StaticDataService staticDataService, WaveController waveController, TimeController timeController)
         {
@@ -36,15 +37,31 @@ namespace SceneContext
             Enemies = new Dictionary<string, Enemy>();
 
             _waveController.OnWaveStart += WaveStart;
+            
+            _gameModelStaticData = _staticDataService.GetGameModelStaticData(GameModelName.GameModelTest);
         }
+
+        public void DestroyAllEnemies()
+        {
+            foreach (KeyValuePair<string,Enemy> enemy in Enemies) 
+                GameObject.Destroy(enemy.Value.gameObject);
+        }
+        public void EnemyWasDestroyed(string id)
+        {
+            EnemyData enemyData = Enemies[id].EnemyData;
+            Enemies.Remove(id);
+            OnEnemyWasDestroyed?.Invoke(enemyData);
+        }
+
+        public void EnemyWasCreated(string id, Enemy enemy) => 
+            Enemies.Add(id, enemy);
 
         private void WaveStart(int waveNumber)
         {
-            GameModelStaticData gameModelStaticData = _staticDataService.GetGameModelStaticData(GameModelName.GameModelTest);
-            if(waveNumber % gameModelStaticData.WaveWithBoss == 0)
-                _diContainer.InstantiatePrefab(_staticDataService.GetEntityStaticData(EntityType.Boss).Prefab, gameModelStaticData.EnemiesSpawnPoint, Quaternion.identity);
+            if(waveNumber % _gameModelStaticData.WaveWithBoss == 0)
+                _diContainer.InstantiatePrefab(_staticDataService.GetEntityStaticData(EntityType.Boss).Prefab, _gameModelStaticData.EnemiesSpawnPoint, Quaternion.identity);
             else
-                Spawn(gameModelStaticData.EnemiesCount, gameModelStaticData.EnemiesSpawnPoint, gameModelStaticData.TimeBetweenSpawn).Forget();
+                Spawn(_gameModelStaticData.EnemiesCount, _gameModelStaticData.EnemiesSpawnPoint, _gameModelStaticData.TimeBetweenSpawn).Forget();
         }
 
         private async UniTask Spawn(int enemiesCount, Vector3 spawnPoints, float timeBetweenSpawn = 0)
@@ -58,15 +75,5 @@ namespace SceneContext
                 await UniTask.WaitUntil(() => _timeController.CurrentTime - _lastWaveStartTime >= timeBetweenSpawn);
             }
         }
-
-        public void EnemyWasDestroyed(string id)
-        {
-            EnemyData enemyData = Enemies[id].EnemyData;
-            Enemies.Remove(id);
-            OnEnemyWasDestroyed?.Invoke(enemyData);
-        }
-
-        public void EnemyWasCreated(string id, Enemy enemy) => 
-            Enemies.Add(id, enemy);
     }
 }

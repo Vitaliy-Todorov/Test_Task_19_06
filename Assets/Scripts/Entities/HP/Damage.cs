@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Entities.HP
@@ -6,12 +7,16 @@ namespace Entities.HP
     {
         [SerializeField] private float _value;
 
+        private void OnCollisionEnter2D(Collision2D col)
+        {
+            IHealth health = col.gameObject.GetComponent<IHealth>();
+            health?.DoDamage(_value);
+        }
+
         private void OnTriggerEnter2D(Collider2D col)
         {
-            Health health = col.gameObject.GetComponent<Health>();
-            
-            if (health)
-                health.DoDamage(_value);
+            IHealth health = col.gameObject.GetComponent<IHealth>();
+            health?.DoDamage(_value);
         }
     }
 }
