@@ -16,5 +16,6 @@ namespace Infrastructure.StaticDataServiceNamespace.StaticData.LevelStaticData
         [field: SerializeField, Space] public float TimeBetweenSpawn { get; private set; }
         [field: SerializeField] public int EnemiesCount { get; private set; }
         [field: SerializeField] public Vector3 EnemiesSpawnPoint { get; private set; }
+        [field: SerializeField] public int BuildingCost { get; private set; }
     }
 }

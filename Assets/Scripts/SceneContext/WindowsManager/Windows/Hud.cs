@@ -1,11 +1,13 @@
 using System;
 using Cysharp.Threading.Tasks;
 using Entities;
+using Infrastructure.DataServiceNamespace;
 using ProjectContext;
 using ProjectContext.WindowsManager;
 using SceneContext;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Zenject;
 
@@ -13,24 +15,27 @@ namespace UI.Hud
 {
     public class Hud : Window
     {
-        [SerializeField, Space] private TMP_Text CounterView;
-        [SerializeField] private TMP_Text WaveNumber;
+        [SerializeField] private TMP_Text _waveNumber;
+        [SerializeField, Space] private TMP_Text _counterView;
+        [SerializeField, Space] private TMP_Text _buildingCost;
 
         [SerializeField, Space] private Button _openMenu;
         [SerializeField] private Button _addBuilding;
 
+        private DataService _dataService;
         private GameWindowsManager _gameWindowsManager;
         private WaveController _waveController;
         private Counter _counter;
         private BuildingCreationArea _buildingCreationArea;
 
         [Inject]
-        private void Construct(TimeController timeController,
+        private void Construct(DataService dataService,
             GameWindowsManager gameWindowsManager,
             WaveController waveController,
             Counter counter,
             BuildingCreationArea buildingCreationArea)
         {
+            _dataService = dataService;
             _gameWindowsManager = gameWindowsManager;
             _waveController = waveController;
             _counter = counter;
@@ -68,10 +73,13 @@ namespace UI.Hud
         public override void Close()=> 
             gameObject.SetActive(false);
 
-        private void WaveStart(int waveNumber) => 
-            WaveNumber.text = waveNumber.ToString();
+        private void WaveStart(int waveNumber)
+        {
+            _waveNumber.text = waveNumber.ToString();
+            _buildingCost.text = _dataService.BuildingCost.ToString();
+        }
 
         private void ScoreChanged(int score) => 
-            CounterView.text = score.ToString();
+            _counterView.text = score.ToString();
     }
 }

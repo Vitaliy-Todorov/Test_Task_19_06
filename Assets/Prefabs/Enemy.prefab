@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <EnemyData>k__BackingField:
-    <PointsForDestruction>k__BackingField: 1
+    <PointsForDestruction>k__BackingField: 2
 --- !u!114 &7278175828371186384
 MonoBehaviour:
   m_ObjectHideFlags: 0

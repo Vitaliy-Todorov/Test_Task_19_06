@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using Entities;
 using Entities.Building;
+using Infrastructure.DataServiceNamespace;
 using ProjectContext;
 using ProjectContext.StaticDataServiceNamespace;
 using ProjectContext.WindowsManager;
@@ -24,6 +25,11 @@ namespace Infrastructure
             
             Container
                 .BindInterfacesAndSelfTo<StaticDataService>()
+                .FromNew()
+                .AsSingle()
+                .NonLazy();
+            Container
+                .BindInterfacesAndSelfTo<DataService>()
                 .FromNew()
                 .AsSingle()
                 .NonLazy();

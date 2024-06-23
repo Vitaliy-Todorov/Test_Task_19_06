@@ -19,3 +19,4 @@ MonoBehaviour:
   <TimeBetweenSpawn>k__BackingField: 1
   <EnemiesCount>k__BackingField: 2
   <EnemiesSpawnPoint>k__BackingField: {x: 5, y: -3, z: 0}
+  <BuildingCost>k__BackingField: 6

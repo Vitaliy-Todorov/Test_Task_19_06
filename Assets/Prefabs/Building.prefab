@@ -67,7 +67,7 @@ MonoBehaviour:
   <Building>k__BackingField: {fileID: 7954761559728033886}
   <IsPlace>k__BackingField: 0
   <SelectedCell>k__BackingField: {fileID: 0}
-  _lastCell: {fileID: 0}
+  _placementCell: {fileID: 0}
 --- !u!114 &5668470762595683767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,7 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b48f630571141b389d3b37b7e7d76f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speedShooting: 1
+  _speedShooting: 0.8
   _moveBuilding: {fileID: 5719384882180142903}
   _bullet: {fileID: 8706291011691919071, guid: df4964ec1dfc50b4b8b0705476d3b6b1, type: 3}
   _gun: {fileID: 3220241883448126912}
