@@ -5,7 +5,7 @@ namespace Entities.HP
 {
     public class HealthActive : MonoBehaviour, IHealth
     {
-        public Action OnUnactivated;
+        public event Action OnUnactivated;
         [SerializeField] private float _value;
         [SerializeField] private float _maxValue;
 

@@ -2,18 +2,19 @@ using System;
 using Entities.Building.Components;
 using SceneContext;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
 namespace Entities.Building
 {
-    public class Building : MonoBehaviour
+    public class Building : AEntity
     {
         public event Action<Building> OnDestroyed;
         public string ID { get; private set; }
+
         [field: SerializeField] public int Level { get; private set; } = 1;
+
         [field: SerializeField] public MoveBuilding MoveBuilding { get; private set; }
-        
+
         private BuildingsSpawner _buildingsSpawner;
 
         [Inject]
@@ -26,10 +27,11 @@ namespace Entities.Building
             _buildingsSpawner.BuildingWasCreated(ID, transform);
         }
 
-        private void OnDestroy()
+        public override void DestroyEntity()
         {
             OnDestroyed?.Invoke(this);
             _buildingsSpawner.BuildingWasDestroyed(ID);
+            Destroy(gameObject);
         }
 
         public void Stack(Building building)

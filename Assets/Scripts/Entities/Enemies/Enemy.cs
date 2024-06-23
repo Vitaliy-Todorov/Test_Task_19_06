@@ -5,11 +5,12 @@ using Zenject;
 
 namespace Entities.Enemies.Enemies
 {
-    public class Enemy : MonoBehaviour
+    public class Enemy : AEntity
     {
         public string ID { get; private set; }
+
         [field: SerializeField] public EnemyData EnemyData { get; private set; }
-        
+
         private EnemiesSpawner _enemiesSpawner;
 
         [Inject]
@@ -22,7 +23,10 @@ namespace Entities.Enemies.Enemies
         private void Start() => 
             _enemiesSpawner.EnemyWasCreated(ID, this);
 
-        private void OnDestroy() => 
+        public override void DestroyEntity()
+        {
             _enemiesSpawner.EnemyWasDestroyed(ID);
+            Destroy(gameObject);
+        }
     }
 }

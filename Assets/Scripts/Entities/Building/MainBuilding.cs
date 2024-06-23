@@ -1,3 +1,4 @@
+using System;
 using Cysharp.Threading.Tasks;
 using Entities.HP;
 using Infrastructure.StaticDataServiceNamespace.StaticData.LevelStaticData;
@@ -10,9 +11,13 @@ using Zenject;
 
 namespace Entities.Building
 {
-    public class MainBuilding : MonoBehaviour
+    public class MainBuilding : AEntity
     {
-        [SerializeField] private HealthActive _health;
+        public string ID { get; private set; }
+        
+        [SerializeField] private GameObject _model;
+        
+        [SerializeField, Space] private Health _health;
         [SerializeField] private float _timeReactivated;
 
         private WaveController _waveController;
@@ -22,6 +27,7 @@ namespace Entities.Building
 
         private GameModelStaticData _gameModelStaticData;
         private float _lastWaveStartTime;
+
 
         [Inject]
         public void Construct(StaticDataService staticDataService,
@@ -34,14 +40,19 @@ namespace Entities.Building
             _staticDataService = staticDataService;
             _enemiesSpawner = enemiesSpawner;
 
-            _health.OnUnactivated += Unactivated;
+            // _health.OnUnactivated += Unactivated;
             
             _gameModelStaticData = _staticDataService.GetGameModelStaticData(GameModelName.GameModelTest);
         }
 
-        private void Unactivated()
-        {
-            _enemiesSpawner.DestroyAllEnemies();
+        private void Awake() => 
+            ID = Guid.NewGuid().ToString();
+
+        public override  void DestroyEntity()
+        { 
+            _model.SetActive(false);
+            
+            _enemiesSpawner.ClearAllEnemies();
             int _wavesFromSave = _waveController.WavesCount % _gameModelStaticData.WaveWithBoss;
             if(_wavesFromSave > 0)
                 _waveController.DropOn(_wavesFromSave);
@@ -54,7 +65,9 @@ namespace Entities.Building
         {
             _lastWaveStartTime = _timeController.CurrentTime;
             await UniTask.WaitUntil(() => _timeController.CurrentTime - _lastWaveStartTime >= _timeReactivated);
-            _health.Active();
+
+            _health.Regeneration();
+            _model.SetActive(true);
         }
     }
 }
