@@ -1,5 +1,6 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
+using Infrastructure.StaticDataServiceNamespace.StaticData.LevelStaticData;
 using ProjectContext;
 using ProjectContext.StaticDataServiceNamespace;
 using ProjectContext.StaticDataServiceNamespace.StaticData.LevelStaticData;
@@ -8,33 +9,36 @@ namespace SceneContext
 {
     public class WaveController
     {
-        public Action OnWaveStart;
+        public Action<int> OnWaveStart;
+        
         private StaticDataService _staticDataService;
         private TimeController _timeController;
         private float _lastWaveStartTime;
+        
+        private GameModelStaticData _levelStaticData;
+        private int _wavesCount;
 
         private WaveController(StaticDataService staticDataService, TimeController timeController)
         {
             _staticDataService = staticDataService;
             _timeController = timeController;
 
+            _levelStaticData = _staticDataService.GetGameModelStaticData(GameModelName.GameModelTest);
             WaveStart().Forget();
         }
 
-         async UniTask WaveStart()
+        private async UniTask WaveStart()
         {
-            LevelStaticData levelStaticData = _staticDataService.GetLevelStaticData(LevelName.LevelTest);
-            int wavesCount = levelStaticData.WavesCount;
             _lastWaveStartTime = _timeController.CurrentTime;
-            await UniTask.WaitUntil(() => _timeController.CurrentTime - _lastWaveStartTime >= levelStaticData.TimeStartWaves);
+            await UniTask.WaitUntil(() => _timeController.CurrentTime - _lastWaveStartTime >= _levelStaticData.TimeStartWaves);
             
-            while (wavesCount > 0)
+            while (true)
             {
-                wavesCount--;
-                OnWaveStart?.Invoke();
-                
+                _wavesCount++;
+                OnWaveStart?.Invoke(_wavesCount);
+
                 _lastWaveStartTime = _timeController.CurrentTime;
-                await UniTask.WaitUntil(() => _timeController.CurrentTime - _lastWaveStartTime >= levelStaticData.TimeBetweenWaves);
+                await UniTask.WaitUntil(() => _timeController.CurrentTime - _lastWaveStartTime >= _levelStaticData.TimeBetweenWaves);
             }
         }
     }

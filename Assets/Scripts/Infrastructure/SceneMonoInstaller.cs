@@ -3,6 +3,7 @@ using System.Globalization;
 using Entities.Building;
 using ProjectContext;
 using ProjectContext.StaticDataServiceNamespace;
+using ProjectContext.WindowsManager;
 using SceneContext;
 using UnityEngine;
 using Zenject;
@@ -28,9 +29,19 @@ namespace Infrastructure
                 .FromNew()
                 .AsSingle()
                 .NonLazy();
+            Container
+                .BindInterfacesAndSelfTo<GameWindowsManager>()
+                .FromNew()
+                .AsSingle()
+                .NonLazy();
             
             Container
                 .BindInterfacesAndSelfTo<WaveController>()
+                .FromNew()
+                .AsSingle()
+                .NonLazy();
+            Container
+                .BindInterfacesAndSelfTo<Counter>()
                 .FromNew()
                 .AsSingle()
                 .NonLazy();

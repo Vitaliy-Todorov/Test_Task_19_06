@@ -5,9 +5,15 @@ using Zenject;
 
 namespace Entities.Enemies.Enemies
 {
+    [Serializable]
+    public class EnemyData
+    {
+        [field: SerializeField] public int PointsForDestruction { get; private set; }
+    }
     public class Enemy : MonoBehaviour
     {
         public string ID { get; private set; }
+        [field: SerializeField] public EnemyData EnemyData { get; private set; }
         
         private EnemiesSpawner _enemiesSpawner;
 

@@ -50,6 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bbd21abef604843abb04da4796bd59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <EnemyData>k__BackingField:
+    <PointsForDestruction>k__BackingField: 1
 --- !u!114 &7278175828371186384
 MonoBehaviour:
   m_ObjectHideFlags: 0

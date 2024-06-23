@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Entities.Enemies.Enemies;
+using Infrastructure.StaticDataServiceNamespace.StaticData.LevelStaticData;
 using ProjectContext;
 using ProjectContext.StaticDataServiceNamespace;
 using ProjectContext.StaticDataServiceNamespace.StaticData.EntityStaticData;
@@ -14,6 +15,8 @@ namespace SceneContext
 {
     public class EnemiesSpawner
     {
+        public Action<EnemyData> OnEnemyWasDestroyed;
+        
         public Dictionary<string, Enemy> Enemies { get; }
         
         private float _lastWaveStartTime;
@@ -35,20 +38,19 @@ namespace SceneContext
             _waveController.OnWaveStart += WaveStart;
         }
 
-        private void WaveStart()
+        private void WaveStart(int waveNumber)
         {
-            LevelStaticData levelStaticData = _staticDataService.GetLevelStaticData(LevelName.LevelTest);
-            Spawn(levelStaticData.EnemiesCount, levelStaticData.EnemiesSpawnPoints, levelStaticData.TimeBetweenSpawn).Forget();
+            GameModelStaticData gameModelStaticData = _staticDataService.GetGameModelStaticData(GameModelName.GameModelTest);
+            Spawn(gameModelStaticData.EnemiesCount, gameModelStaticData.EnemiesSpawnPoints, gameModelStaticData.TimeBetweenSpawn).Forget();
         }
 
-        public async UniTask Spawn(int enemiesCount, List<Vector3> spawnPoints, float timeBetweenSpawn = 0)
+        private async UniTask Spawn(int enemiesCount, List<Vector3> spawnPoints, float timeBetweenSpawn = 0)
         {
             while (enemiesCount > 0)
             {
                 enemiesCount--;
                 int randomIndex = Random.Range(0, spawnPoints.Count - 1);
                 _diContainer.InstantiatePrefab(_staticDataService.GetEntityStaticData(EntityType.Enemy).Prefab, spawnPoints[randomIndex], Quaternion.identity);
-                
                 
                 _lastWaveStartTime = _timeController.CurrentTime;
                 await UniTask.WaitUntil(() => _timeController.CurrentTime - _lastWaveStartTime >= timeBetweenSpawn);
@@ -57,14 +59,12 @@ namespace SceneContext
 
         public void EnemyWasDestroyed(string id)
         {
+            EnemyData enemyData = Enemies[id].EnemyData;
             Enemies.Remove(id);
-            // OnChangingBuildingsPositions?.Invoke();
+            OnEnemyWasDestroyed?.Invoke(enemyData);
         }
 
-        public void EnemyWasCreated(string id, Enemy building)
-        {
-            Enemies.Add(id, building);
-            // OnChangingBuildingsPositions?.Invoke();
-        }
+        public void EnemyWasCreated(string id, Enemy enemy) => 
+            Enemies.Add(id, enemy);
     }
 }
