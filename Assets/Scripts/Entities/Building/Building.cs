@@ -9,7 +9,6 @@ namespace Entities.Building
     public class Building : AEntity
     {
         public event Action<Building> OnDestroyed;
-        public string ID { get; private set; }
 
         [field: SerializeField] public int Level { get; private set; } = 1;
 

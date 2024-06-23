@@ -4,7 +4,7 @@ namespace Entities
 {
     public abstract class AEntity : MonoBehaviour
     {
-        public string ID { get; private set; }
+        public string ID { get; protected set; }
         public abstract void DestroyEntity();
     }
 }

@@ -13,8 +13,6 @@ namespace Entities.Building
 {
     public class MainBuilding : AEntity
     {
-        public string ID { get; private set; }
-        
         [SerializeField] private GameObject _model;
         
         [SerializeField, Space] private Health _health;
@@ -39,8 +37,6 @@ namespace Entities.Building
             _waveController = waveController;
             _staticDataService = staticDataService;
             _enemiesSpawner = enemiesSpawner;
-
-            // _health.OnUnactivated += Unactivated;
             
             _gameModelStaticData = _staticDataService.GetGameModelStaticData(GameModelName.GameModelTest);
         }
@@ -48,7 +44,7 @@ namespace Entities.Building
         private void Awake() => 
             ID = Guid.NewGuid().ToString();
 
-        public override  void DestroyEntity()
+        public override void DestroyEntity()
         { 
             _model.SetActive(false);
             
@@ -58,7 +54,7 @@ namespace Entities.Building
                 _waveController.DropOn(_wavesFromSave);
             else
                 _waveController.DropOn(_gameModelStaticData.WaveWithBoss);
-            Active();
+            Active().Forget();
         }
 
         private async UniTask Active()

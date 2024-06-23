@@ -9,7 +9,6 @@ using ProjectContext.StaticDataServiceNamespace.StaticData.EntityStaticData;
 using ProjectContext.StaticDataServiceNamespace.StaticData.LevelStaticData;
 using UnityEngine;
 using Zenject;
-using Random = UnityEngine.Random;
 
 namespace SceneContext
 {
@@ -47,9 +46,12 @@ namespace SceneContext
                 GameObject.Destroy(enemy.Value.gameObject);
             Enemies.Clear();
         }
+        
         public void EnemyWasDestroyed(string id)
         {
-            EnemyData enemyData = Enemies[id].EnemyData;
+            if(!Enemies.TryGetValue(id, out var enemy))
+                return;
+            EnemyData enemyData = enemy.EnemyData;
             Enemies.Remove(id);
             OnEnemyWasDestroyed?.Invoke(enemyData);
         }

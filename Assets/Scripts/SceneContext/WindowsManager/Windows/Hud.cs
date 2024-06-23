@@ -1,10 +1,11 @@
 using System;
+using Cysharp.Threading.Tasks;
+using Entities;
 using ProjectContext;
 using ProjectContext.WindowsManager;
 using SceneContext;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Zenject;
 
@@ -12,29 +13,28 @@ namespace UI.Hud
 {
     public class Hud : Window
     {
-        [SerializeField] private Button AddBuilding;
         [SerializeField, Space] private TMP_Text CounterView;
         [SerializeField] private TMP_Text WaveNumber;
-        
+
         [SerializeField, Space] private Button _openMenu;
-        // [SerializeField] private Button _play;
+        [SerializeField] private Button _addBuilding;
 
-
-        private TimeController _timeController;
         private GameWindowsManager _gameWindowsManager;
         private WaveController _waveController;
         private Counter _counter;
+        private BuildingCreationArea _buildingCreationArea;
 
         [Inject]
         private void Construct(TimeController timeController,
             GameWindowsManager gameWindowsManager,
             WaveController waveController,
-            Counter counter)
+            Counter counter,
+            BuildingCreationArea buildingCreationArea)
         {
-            _timeController = timeController;
             _gameWindowsManager = gameWindowsManager;
             _waveController = waveController;
             _counter = counter;
+            _buildingCreationArea = buildingCreationArea;
 
             _counter.OnScoreChanged += ScoreChanged;
             _waveController.OnWaveStart += WaveStart;
@@ -43,11 +43,20 @@ namespace UI.Hud
 
         private void Awake()
         {
-            // _pause.onClick.AddListener(_timeController.Pause);
-            // _play.onClick.AddListener(_timeController.Play);
-            
             _openMenu.onClick.AddListener(() => _gameWindowsManager.Open(EWindow.Menu));
-            // _play.onClick.AddListener(() => _gameWindowsManager.Close());
+            _addBuilding.onClick.AddListener(() => AddBuilding().Forget());
+        }
+
+        private async UniTask AddBuilding()
+        {
+            if (!_buildingCreationArea.AddBuilding())
+            {
+                _addBuilding.image.color = Color.red;
+                
+                await UniTask.Delay(TimeSpan.FromSeconds(.5));
+                
+                _addBuilding.image.color = Color.white;
+            }
         }
 
         private void OnDestroy() => 

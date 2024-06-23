@@ -7,8 +7,6 @@ namespace Entities.Enemies.Enemies
 {
     public class Enemy : AEntity
     {
-        public string ID { get; private set; }
-
         [field: SerializeField] public EnemyData EnemyData { get; private set; }
 
         private EnemiesSpawner _enemiesSpawner;

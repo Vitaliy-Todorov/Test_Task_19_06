@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using Entities;
 using Entities.Building;
 using ProjectContext;
 using ProjectContext.StaticDataServiceNamespace;
@@ -10,15 +11,17 @@ using Zenject;
 
 namespace Infrastructure
 {
-    public static class Constants
-    {
-        public const string FirstLaunchDateKey = "FirstLaunchDate";
-    }
-
     public class SceneMonoInstaller : MonoInstaller
     {
+        [SerializeField] private BuildingCreationArea _buildingCreationArea;
+        
         public override void InstallBindings()
         {
+            Container
+                .Bind<BuildingCreationArea>()
+                .FromInstance(_buildingCreationArea)
+                .AsSingle();
+            
             Container
                 .BindInterfacesAndSelfTo<StaticDataService>()
                 .FromNew()

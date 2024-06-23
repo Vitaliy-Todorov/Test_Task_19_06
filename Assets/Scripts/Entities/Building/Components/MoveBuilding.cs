@@ -47,7 +47,8 @@ namespace Entities.Building.Components
         {
             if(SelectedCell && _placementCell != SelectedCell)
             {
-                _placementCell.RemoveBuilding(Building);
+                if(_placementCell)
+                    _placementCell.RemoveBuilding(Building);
                 SelectedCell.PlaceBuilding(this);
                 if(SelectedCell) 
                     _placementCell = SelectedCell;
@@ -60,7 +61,7 @@ namespace Entities.Building.Components
         }
         public void Placement(Cell cell)
         {
-            _placementCell = cell;
+            SelectedCell = cell;
             Placement();
         }
     }

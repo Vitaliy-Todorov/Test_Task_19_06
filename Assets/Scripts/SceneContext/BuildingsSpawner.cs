@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Entities;
+using Entities.Building;
 using UnityEngine;
 using Zenject;
 
@@ -17,8 +19,12 @@ namespace SceneContext
             Buildings = new Dictionary<string, Transform>();
         }
 
-        public void CreateBuild(GameObject buildingPrefab) => 
-            _instantiator.InstantiatePrefab(buildingPrefab, Helper.WorldMousePosition(), Quaternion.identity);
+        public Building CreateBuild(GameObject buildingPrefab)
+        {
+            GameObject buildingGO = _instantiator.InstantiatePrefab(buildingPrefab, Helper.WorldMousePosition(), Quaternion.identity);
+            Building building = buildingGO.GetComponent<Building>();
+            return building;
+        }
 
         public void BuildingWasDestroyed(string id) => 
             Buildings.Remove(id);

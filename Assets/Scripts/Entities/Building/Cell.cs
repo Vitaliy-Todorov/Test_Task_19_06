@@ -1,37 +1,38 @@
 using Entities.Building.Components;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Entities.Building
 {
     public class Cell : MonoBehaviour
     {
-        [field: SerializeField] private Building _building;
+        [field: SerializeField] public Building Building { get; private set; }
 
         private void Awake()
         {
-            if(!_building)
+            if(!Building)
                 return;
-            _building.MoveBuilding.Placement(this);
-            _building.OnDestroyed += RemoveBuilding;
+            Building.MoveBuilding.Placement(this);
+            Building.OnDestroyed += RemoveBuilding;
         }
 
         public void PlaceBuilding(MoveBuilding moveBuilding)
         {
-            if (_building == moveBuilding.Building) 
+            if (Building == moveBuilding.Building) 
                 return;
-            if (_building)
-                _building.Stack(moveBuilding.Building);
+            if (Building)
+                Building.Stack(moveBuilding.Building);
             else
-                _building = moveBuilding.Building;
+                Building = moveBuilding.Building;
         }
 
         public void RemoveBuilding(Building building)
         {
-            if(_building.ID != building.ID)
+            if(Building.ID != building.ID)
                 return;
-            _building.OnDestroyed -= RemoveBuilding;
+            Building.OnDestroyed -= RemoveBuilding;
 
-            _building = null;
+            Building = null;
         }
     }
 }
