@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: BossStaticData
   m_EditorClassIdentifier: 
   <EntityType>k__BackingField: 2
-  <Prefab>k__BackingField: {fileID: 6797322427447826168, guid: 73df837ec9f054b4a94f947515c56bf0, type: 3}
+  <Prefab>k__BackingField: {fileID: 6797322427447826168, guid: 22ea62b11ba866949b48a746c17502f7, type: 3}

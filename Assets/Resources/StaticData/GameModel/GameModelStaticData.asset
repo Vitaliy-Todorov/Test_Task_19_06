@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <GameModelName>k__BackingField: 0
   <TimeStartWaves>k__BackingField: 1
-  <TimeBetweenWaves>k__BackingField: 3
+  <TimeBetweenWaves>k__BackingField: 5
+  <WaveWithBoss>k__BackingField: 3
   <TimeBetweenSpawn>k__BackingField: 1
   <EnemiesCount>k__BackingField: 2
-  <EnemiesSpawnPoints>k__BackingField:
-  - {x: 7, y: -4, z: 0}
+  <EnemiesSpawnPoint>k__BackingField: {x: 5, y: -3, z: 0}

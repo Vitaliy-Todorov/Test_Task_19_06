@@ -5,38 +5,33 @@ namespace Entities.Building
 {
     public class Cell : MonoBehaviour
     {
-        [field: SerializeField] private Entities.Building.Building _building;
-        private Entities.Building.Building _selectedBuilding;
+        [field: SerializeField] private Building _building;
 
         private void Awake()
         {
             if(!_building)
                 return;
             _building.MoveBuilding.Placement(this);
-            _building.MoveBuilding.OnPlaced += PlaceBuilding;
+            _building.OnDestroyed += RemoveBuilding;
         }
 
-        private void OnCollisionEnter2D(Collision2D col)
+        public void PlaceBuilding(MoveBuilding moveBuilding)
         {
-            _selectedBuilding = col.gameObject.GetComponent<Entities.Building.Building>();
-            _building.MoveBuilding.OnPlaced -= PlaceBuilding;
-            _selectedBuilding.MoveBuilding.OnPlaced += PlaceBuilding;
-        }
-
-        private void OnCollisionExit2D(Collision2D other)
-        {
-            if(!_selectedBuilding)
+            if (_building == moveBuilding.Building) 
                 return;
-            _selectedBuilding.MoveBuilding.OnPlaced -= PlaceBuilding;
-            _building.MoveBuilding.OnPlaced += PlaceBuilding;
-            _selectedBuilding = null;
+            if (_building)
+                _building.Stack(moveBuilding.Building);
+            else
+                _building = moveBuilding.Building;
         }
 
-        private void PlaceBuilding(MoveBuilding moveBuilding)
+        public void RemoveBuilding(Building building)
         {
-            if (moveBuilding.SelectedCell != this)
-                if (_building != moveBuilding.Building)
-                    _building.Stack(moveBuilding.Building);
+            if(_building.ID != building.ID)
+                return;
+            _building.OnDestroyed -= RemoveBuilding;
+
+            _building = null;
         }
     }
 }

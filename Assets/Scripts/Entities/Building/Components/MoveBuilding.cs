@@ -1,22 +1,23 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Entities.Building.Components
 {
-    [RequireComponent(typeof(Entities.Building.Building))]
+    [RequireComponent(typeof(Building))]
     public class MoveBuilding : MonoBehaviour
     {
         public event Action<MoveBuilding> OnPlaced;
 
-        [field: SerializeField] public Entities.Building.Building Building { get; private set; }
+        [field: SerializeField] public Building Building { get; private set; }
         [field: SerializeField] public bool IsPlace { get; private set; }
         [field: SerializeField] public Cell SelectedCell { get; private set; }
 
-        [field: SerializeField] private Cell _lastCell;
+        [field: SerializeField] private Cell _placementCell;
 
         private void Awake()
         {
-            Building = GetComponent<Entities.Building.Building>();
+            Building = GetComponent<Building>();
         }
 
         private void Update()
@@ -27,20 +28,31 @@ namespace Entities.Building.Components
             transform.position = Helper.WorldMousePosition();
         }
 
-        private void OnCollisionEnter2D(Collision2D col) => 
+        private void OnCollisionEnter2D(Collision2D col)
+        {
             SelectedCell = col.gameObject.GetComponent<Cell>();
+        }
 
-        private void OnCollisionExit2D(Collision2D other) => 
-            SelectedCell = null;
+        private void OnCollisionExit2D(Collision2D other)
+        {
+            Cell selectedCell = other.gameObject.GetComponent<Cell>();
+            if(selectedCell == SelectedCell)
+                SelectedCell = null;
+        }
 
         public void IsMoving() => 
             IsPlace = false;
 
         public bool Placement()
         {
-            if(SelectedCell) 
-                _lastCell = SelectedCell;
-            transform.position = _lastCell.transform.position;
+            if(SelectedCell && _placementCell != SelectedCell)
+            {
+                _placementCell.RemoveBuilding(Building);
+                SelectedCell.PlaceBuilding(this);
+                if(SelectedCell) 
+                    _placementCell = SelectedCell;
+            }
+            transform.position = _placementCell.transform.position;
             IsPlace = true;
             OnPlaced?.Invoke(this);
 
@@ -48,7 +60,7 @@ namespace Entities.Building.Components
         }
         public void Placement(Cell cell)
         {
-            _lastCell = cell;
+            _placementCell = cell;
             Placement();
         }
     }

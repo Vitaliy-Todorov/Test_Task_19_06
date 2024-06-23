@@ -42,7 +42,11 @@ namespace Entities.Building
         private void Unactivated()
         {
             _enemiesSpawner.DestroyAllEnemies();
-            _waveController.DropOn(_gameModelStaticData.WaveWithBoss);
+            int _wavesFromSave = _waveController.WavesCount % _gameModelStaticData.WaveWithBoss;
+            if(_wavesFromSave > 0)
+                _waveController.DropOn(_wavesFromSave);
+            else
+                _waveController.DropOn(_gameModelStaticData.WaveWithBoss);
             Active();
         }
 

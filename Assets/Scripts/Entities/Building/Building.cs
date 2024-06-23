@@ -9,6 +9,7 @@ namespace Entities.Building
 {
     public class Building : MonoBehaviour
     {
+        public event Action<Building> OnDestroyed;
         public string ID { get; private set; }
         [field: SerializeField] public int Level { get; private set; } = 1;
         [field: SerializeField] public MoveBuilding MoveBuilding { get; private set; }
@@ -25,8 +26,11 @@ namespace Entities.Building
             _buildingsSpawner.BuildingWasCreated(ID, transform);
         }
 
-        private void OnDestroy() => 
+        private void OnDestroy()
+        {
+            OnDestroyed?.Invoke(this);
             _buildingsSpawner.BuildingWasDestroyed(ID);
+        }
 
         public void Stack(Building building)
         {

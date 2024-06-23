@@ -17,7 +17,7 @@ namespace SceneContext
         private float _lastWaveStartTime;
         
         private GameModelStaticData _levelStaticData;
-        private int _wavesCount;
+        public int WavesCount { get; private set; }
 
         private WaveController(StaticDataService staticDataService, TimeController timeController)
         {
@@ -30,8 +30,8 @@ namespace SceneContext
 
         public void DropOn(int howMuchToDrop)
         {
-            _wavesCount -= howMuchToDrop;
-            OnWavesDropped?.Invoke(_wavesCount);
+            WavesCount -= howMuchToDrop;
+            OnWavesDropped?.Invoke(WavesCount);
         }
 
         private async UniTask WaveStart()
@@ -41,8 +41,8 @@ namespace SceneContext
             
             while (true)
             {
-                _wavesCount++;
-                OnWaveStart?.Invoke(_wavesCount);
+                WavesCount++;
+                OnWaveStart?.Invoke(WavesCount);
 
                 _lastWaveStartTime = _timeController.CurrentTime;
                 await UniTask.WaitUntil(() => _timeController.CurrentTime - _lastWaveStartTime >= _levelStaticData.TimeBetweenWaves);
