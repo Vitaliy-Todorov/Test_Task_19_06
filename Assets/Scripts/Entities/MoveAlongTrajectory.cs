@@ -12,10 +12,12 @@ namespace Entities
 
         private void FixedUpdate()
         {
+            if(_currenPoint >= _path.Count)
+                return;
             transform.rotation = Quaternion.LookRotation(Vector3.forward, _path[_currenPoint] - transform.position);
             transform.position = Vector2.MoveTowards(transform.position, _path[_currenPoint], _speed * Time.fixedDeltaTime);
 
-            if (_path[_currenPoint] == transform.position && _currenPoint < _path.Count)
+            if (_path[_currenPoint] == transform.position)
                 _currenPoint++;
         }
     }

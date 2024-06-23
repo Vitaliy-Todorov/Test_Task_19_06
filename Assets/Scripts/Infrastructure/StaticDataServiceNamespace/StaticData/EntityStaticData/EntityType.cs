@@ -3,6 +3,7 @@
     public enum EntityType
     {
         Building,
-        Enemy
+        Enemy,
+        Boss
     }
 }

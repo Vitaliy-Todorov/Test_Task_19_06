@@ -41,16 +41,18 @@ namespace SceneContext
         private void WaveStart(int waveNumber)
         {
             GameModelStaticData gameModelStaticData = _staticDataService.GetGameModelStaticData(GameModelName.GameModelTest);
-            Spawn(gameModelStaticData.EnemiesCount, gameModelStaticData.EnemiesSpawnPoints, gameModelStaticData.TimeBetweenSpawn).Forget();
+            if(waveNumber % gameModelStaticData.WaveWithBoss == 0)
+                _diContainer.InstantiatePrefab(_staticDataService.GetEntityStaticData(EntityType.Boss).Prefab, gameModelStaticData.EnemiesSpawnPoint, Quaternion.identity);
+            else
+                Spawn(gameModelStaticData.EnemiesCount, gameModelStaticData.EnemiesSpawnPoint, gameModelStaticData.TimeBetweenSpawn).Forget();
         }
 
-        private async UniTask Spawn(int enemiesCount, List<Vector3> spawnPoints, float timeBetweenSpawn = 0)
+        private async UniTask Spawn(int enemiesCount, Vector3 spawnPoints, float timeBetweenSpawn = 0)
         {
             while (enemiesCount > 0)
             {
                 enemiesCount--;
-                int randomIndex = Random.Range(0, spawnPoints.Count - 1);
-                _diContainer.InstantiatePrefab(_staticDataService.GetEntityStaticData(EntityType.Enemy).Prefab, spawnPoints[randomIndex], Quaternion.identity);
+                _diContainer.InstantiatePrefab(_staticDataService.GetEntityStaticData(EntityType.Enemy).Prefab, spawnPoints, Quaternion.identity);
                 
                 _lastWaveStartTime = _timeController.CurrentTime;
                 await UniTask.WaitUntil(() => _timeController.CurrentTime - _lastWaveStartTime >= timeBetweenSpawn);

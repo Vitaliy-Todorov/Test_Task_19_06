@@ -12,9 +12,9 @@ namespace Infrastructure.StaticDataServiceNamespace.StaticData.LevelStaticData
         [field: SerializeField, Header("Wave")] public double TimeStartWaves { private set; get; }
         [field: SerializeField] public double TimeBetweenWaves { get; private set; }
 
-
-        [field: SerializeField, Header("EnemiesSpawner")] public float TimeBetweenSpawn { get; private set; }
+        [field: SerializeField, Header("EnemiesSpawner")] public int WaveWithBoss { private set; get; }
+        [field: SerializeField, Space] public float TimeBetweenSpawn { get; private set; }
         [field: SerializeField] public int EnemiesCount { get; private set; }
-        [field: SerializeField] public List<Vector3> EnemiesSpawnPoints { get; private set; }
+        [field: SerializeField] public Vector3 EnemiesSpawnPoint { get; private set; }
     }
 }
