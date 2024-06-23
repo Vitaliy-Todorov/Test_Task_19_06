@@ -1394,7 +1394,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _model: {fileID: 6936539260991161492}
   _health: {fileID: 5636556172686489319}
-  _timeReactivated: 2
+  _timeReactivated: 1
 --- !u!50 &5636556172686489317
 Rigidbody2D:
   serializedVersion: 4
