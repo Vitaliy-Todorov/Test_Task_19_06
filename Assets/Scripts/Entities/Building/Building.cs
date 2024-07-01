@@ -1,6 +1,7 @@
 using System;
 using Entities.Building.Components;
 using SceneContext;
+using TMPro;
 using UnityEngine;
 using Zenject;
 
@@ -11,8 +12,9 @@ namespace Entities.Building
         public event Action<Building> OnDestroyed;
 
         [field: SerializeField] public int Level { get; private set; } = 1;
-
         [field: SerializeField] public MoveBuilding MoveBuilding { get; private set; }
+
+        [SerializeField] private TMP_Text _levelText;
 
         private BuildingsSpawner _buildingsSpawner;
 
@@ -24,6 +26,8 @@ namespace Entities.Building
         {
             ID = Guid.NewGuid().ToString();
             _buildingsSpawner.BuildingWasCreated(ID, this);
+            
+            _levelText.text = Level.ToString();
         }
 
         public override void DestroyEntity()
@@ -36,6 +40,8 @@ namespace Entities.Building
         {
             Level += building.Level;
             _buildingsSpawner.BuildingDestroy(building.ID);
+
+            _levelText.text = Level.ToString();
         }
     }
 }

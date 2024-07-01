@@ -54,7 +54,6 @@ namespace UI.Hud
 
         public override void Close()
         {
-            _waveController.SetWavesCount(_modelStaticData.StartWavesCount);
             _timeController.Play();
             gameObject.SetActive(false);
         }

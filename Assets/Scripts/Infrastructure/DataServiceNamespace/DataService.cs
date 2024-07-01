@@ -12,7 +12,8 @@ namespace Infrastructure.DataServiceNamespace
 {
     public class DataService
     {
-        public float CurrentTime { get; set; }
+        public bool IsRealTime { get; set; }
+        public float CurrentTime { private get; set; }
         public bool Boost { get; set; }
         public int BuildingCost => _gameModelStaticData.BuildingCost;
 
@@ -27,6 +28,7 @@ namespace Infrastructure.DataServiceNamespace
             }
         }
 
+        private const string IsRealTimeKey = "IsRealTime";
         private const string BoostKey = "Boost";
         private const string CurrentTimeKey = "CurrentTimeKey";
         private const string CurrentLevelKey = "CurrentLevelKey";
@@ -51,40 +53,29 @@ namespace Infrastructure.DataServiceNamespace
             Load();
         }
 
+        public void Save()
+        {
+            PlayerPrefs.SetString(IsRealTimeKey, IsRealTime.ToString());
+            PlayerPrefs.SetString(BoostKey, Boost.ToString());
+            PlayerPrefs.SetFloat(CurrentTimeKey, CurrentTime);
+            PlayerPrefs.SetInt(CurrentLevelKey, _waveController.WavesCount);
+        }
+        
         private void Load()
         {
-            if (PlayerPrefs.HasKey(BoostKey))
-            {
-                Boost = "true" == PlayerPrefs.GetString(BoostKey);
-                Debug.Log($"Load Boost: {Boost}");
-            }
-            else
-            {
-                PlayerPrefs.SetString(BoostKey, Boost.ToString());
-                Debug.Log($"Load Boost: {Boost}");
-            }
+            if (PlayerPrefs.HasKey(IsRealTimeKey)) 
+                IsRealTime = "True" == PlayerPrefs.GetString(IsRealTimeKey);
             
-            if (PlayerPrefs.HasKey(CurrentTimeKey))
-            {
+            if (PlayerPrefs.HasKey(BoostKey)) 
+                Boost = "True" == PlayerPrefs.GetString(BoostKey);
+            
+            if (PlayerPrefs.HasKey(CurrentTimeKey)) 
                 CurrentTime = PlayerPrefs.GetFloat(CurrentTimeKey);
-                Debug.Log($"Load Boost: {Boost}");
-            }
-            else
-            {
-                PlayerPrefs.SetFloat(CurrentTimeKey, CurrentTime);
-                Debug.Log($"Load Boost: {CurrentTimeKey}");
-            }
             
             if (PlayerPrefs.HasKey(CurrentLevelKey))
             {
                 int currentLevel = PlayerPrefs.GetInt(CurrentLevelKey);
                 _waveController.SetWavesCount(currentLevel);
-                Debug.Log($"Load Boost: {Boost}");
-            }
-            else
-            {
-                PlayerPrefs.SetInt(CurrentLevelKey, _waveController.WavesCount);
-                Debug.Log($"Load Boost: {CurrentLevelKey}");
             }
         }
 
@@ -102,12 +93,13 @@ namespace Infrastructure.DataServiceNamespace
             return totalDPS / totalLevel;
         }
 
-        private float TimeInMinutes()
+        public float TimeInMinutes()
         {
-            /*TimeSpan timeSpan = DateTime.Now - _timeController.FirstLaunchDate;
-            return timeSpan.Minutes;*/
             TimeSpan timeSpan = DateTime.Now - _timeController.FirstLaunchDate;
-            return timeSpan.Minutes + CurrentTime;
+            if (IsRealTime)
+                return timeSpan.Minutes;
+            else
+                return CurrentTime;
         }
     }
 }

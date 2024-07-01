@@ -11,7 +11,6 @@ namespace Infrastructure.StaticDataServiceNamespace.StaticData.LevelStaticData
         [field: SerializeField] public GameModelName GameModelName { get; private set; }
 
         [field: SerializeField, Space] public float MaxTime { get; private set; } = 115200;
-        [field: SerializeField, Range(0,400)] public int StartWavesCount { get; private set; }
         [field: SerializeField] public int MaxHealth { get; private set; } = 220400;
         [field: SerializeField] public float MaxLevel { get; private set; } = 200;
         [field: SerializeField] public float BoosMaxLevel { get; private set; } = 400;

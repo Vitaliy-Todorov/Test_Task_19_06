@@ -14,12 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <GameModelName>k__BackingField: 0
   <MaxTime>k__BackingField: 2880
-  <StartWavesCount>k__BackingField: 0
-  <MaxHealth>k__BackingField: 9600
+  <MaxHealth>k__BackingField: 12000
   <MaxLevel>k__BackingField: 200
   <BoosMaxLevel>k__BackingField: 400
   <TimeStartWaves>k__BackingField: 1
-  <TimeBetweenWaves>k__BackingField: 7
+  <TimeBetweenWaves>k__BackingField: 8
   <WaveWithBoss>k__BackingField: 3
   <TimeBetweenSpawn>k__BackingField: 1
   <EnemiesCount>k__BackingField: 5

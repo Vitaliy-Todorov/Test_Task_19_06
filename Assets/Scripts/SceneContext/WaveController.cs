@@ -10,7 +10,7 @@ namespace SceneContext
     public class WaveController
     {
         public Action<int> OnWaveStart;
-        public Action<int> OnWavesDropped ;
+        public Action<int> OnSetWavesCount ;
         
         private StaticDataService _staticDataService;
         private TimeController _timeController;
@@ -31,13 +31,13 @@ namespace SceneContext
         public void SetWavesCount(int startWavesCount)
         {
             WavesCount = startWavesCount;
-            OnWavesDropped?.Invoke(WavesCount);
+            OnSetWavesCount?.Invoke(WavesCount);
         }
 
         public void DropOn(int howMuchToDrop)
         {
             WavesCount -= howMuchToDrop;
-            OnWavesDropped?.Invoke(WavesCount);
+            OnSetWavesCount?.Invoke(WavesCount);
         }
 
         private async UniTask WaveStart()

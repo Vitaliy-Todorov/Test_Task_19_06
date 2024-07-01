@@ -1,13 +1,11 @@
-﻿using Entities;
+﻿using System;
 using Infrastructure.DataServiceNamespace;
 using Infrastructure.StaticDataServiceNamespace.StaticData.LevelStaticData;
 using ProjectContext.StaticDataServiceNamespace;
 using ProjectContext.StaticDataServiceNamespace.StaticData.LevelStaticData;
-using ProjectContext.WindowsManager;
 using SceneContext;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Zenject;
 
@@ -15,6 +13,7 @@ namespace UI.Hud
 {
     public class Settings : MonoBehaviour
     {
+        [SerializeField, Space] private Toggle _realTime;
         [SerializeField, Space] private Slider _currentTime;
         [SerializeField] private TMP_Text _currentTimeText;
         
@@ -38,41 +37,43 @@ namespace UI.Hud
 
             _modelStaticData = staticDataService.GetGameModelStaticData(GameModelName.GameModelTest);
 
-            _currentTime.value = _dataService.CurrentTime / _modelStaticData.MaxTime;
-            _currentTimeText.text = _dataService.CurrentTime.ToString();
+            _realTime.isOn = _dataService.IsRealTime;
+            _currentTime.value = _dataService.TimeInMinutes() / _modelStaticData.MaxTime;
 
-            _currentLevel.value = _waveController.WavesCount / _dataService.MaxLevel;
             _currentLevel.maxValue = _dataService.MaxLevel;
             _currentLevelText.text = _waveController.WavesCount.ToString();
+            _waveController.OnWaveStart += SetLevel;
             
             _boostToggle.isOn = _dataService.Boost;
         }
 
         private void Awake()
         {
-            _currentTime.onValueChanged.AddListener(ChangeTime);
+            _realTime.onValueChanged.AddListener(value => _dataService.IsRealTime = value);
+            _currentTime.onValueChanged.AddListener(value => _dataService.CurrentTime = value * _modelStaticData.MaxTime);
             
-            _currentLevel.onValueChanged.AddListener(value => Test(value));
+            _currentLevel.onValueChanged.AddListener(value => _currentLevelText.text = value.ToString());
             _updeteLevel.onClick.AddListener(UpdateLevel);
             
             _boostToggle.onValueChanged.AddListener(Boost);
         }
 
-        private void Test(float value)
+        private void Update()
         {
-            _currentLevelText.text = (value * _waveController.WavesCount).ToString();
+            _currentTimeText.text = (_dataService.TimeInMinutes() / 60).ToString();
+            _currentTime.value = _dataService.TimeInMinutes() / _modelStaticData.MaxTime;
+        }
+
+        private void SetLevel(int value)
+        {
+            _currentLevel.value = value;
+            _currentLevelText.text = value.ToString();
         }
 
         private void Boost(bool value)
         {
             _dataService.Boost = value;
             _currentLevel.maxValue = _dataService.MaxLevel;
-        }
-
-        private void ChangeTime(float value)
-        {
-            _currentTimeText.text = (value * _modelStaticData.MaxTime / 60).ToString();
-            _dataService.CurrentTime = value * _modelStaticData.MaxTime;
         }
 
         private void UpdateLevel()

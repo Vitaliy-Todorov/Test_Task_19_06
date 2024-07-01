@@ -45,7 +45,7 @@ namespace UI.Hud
 
             _counter.OnScoreChanged += ScoreChanged;
             _waveController.OnWaveStart += WaveStart;
-            _waveController.OnWavesDropped += WaveStart;
+            _waveController.OnSetWavesCount += WaveStart;
         }
 
         private void Awake()
