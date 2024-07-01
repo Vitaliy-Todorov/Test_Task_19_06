@@ -69,15 +69,19 @@ namespace SceneContext
 
         private void WaveStart(int waveNumber)
         {
+            float totalHPLevel = (float) _gameModelStaticData.MaxHealth * _waveController.WavesCount / 200;
             if(waveNumber % _gameModelStaticData.WaveWithBoss == 0)
-                _diContainer.InstantiatePrefab(_staticDataService.GetEntityStaticData(EntityType.Boss).Prefab, _gameModelStaticData.EnemiesSpawnPoint, Quaternion.identity);
+            {
+                GameObject enemyGO = _diContainer.InstantiatePrefab(_staticDataService.GetEntityStaticData(EntityType.Boss).Prefab, _gameModelStaticData.EnemiesSpawnPoint, Quaternion.identity);
+                enemyGO.GetComponent<Health>().SetMaxHealth(totalHPLevel);
+            }
             else
-                Spawn(_gameModelStaticData.EnemiesCount, _gameModelStaticData.EnemiesSpawnPoint, _gameModelStaticData.TimeBetweenSpawn).Forget();
+                Spawn(_gameModelStaticData.EnemiesCount, _gameModelStaticData.EnemiesSpawnPoint, totalHPLevel, _gameModelStaticData.TimeBetweenSpawn).Forget();
         }
 
-        private async UniTask Spawn(int enemiesCount, Vector3 spawnPoints, float timeBetweenSpawn = 0)
+        private async UniTask Spawn(int enemiesCount, Vector3 spawnPoints, float totalHpLevel, float timeBetweenSpawn = 0)
         {
-            float hpEnemy = _dataService.TotalHPLevel() / enemiesCount;
+            float hpEnemy = totalHpLevel / enemiesCount;
             while (enemiesCount > 0)
             {
                 enemiesCount--;

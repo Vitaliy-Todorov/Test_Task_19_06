@@ -8,8 +8,11 @@ namespace Infrastructure.StaticDataServiceNamespace.StaticData.LevelStaticData
     [CreateAssetMenu(menuName = "StaticData/GameModel", fileName = "GameModelStaticData")]
     public class GameModelStaticData : ScriptableObject
     {
-        [field: SerializeField, Range(0,115200)] public float FirstLaunchDate { get; private set; }
-        [field: SerializeField, Space] public GameModelName GameModelName { get; private set; }
+        [field: SerializeField] public GameModelName GameModelName { get; private set; }
+        [field: SerializeField, Range(0,115200), Space] public float FirstLaunchDate { get; private set; }
+        [field: SerializeField, Range(0,200)] public int StartWavesCount { get; private set; }
+        [field: SerializeField] public int MaxHealth { get; private set; } = 220400;
+
 
         [field: SerializeField, Header("Wave")] public double TimeStartWaves { get; private set; }
         [field: SerializeField] public double TimeBetweenWaves { get; private set; }

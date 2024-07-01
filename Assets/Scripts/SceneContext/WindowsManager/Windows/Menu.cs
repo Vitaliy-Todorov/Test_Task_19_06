@@ -1,5 +1,9 @@
+using Infrastructure.StaticDataServiceNamespace.StaticData.LevelStaticData;
 using ProjectContext;
+using ProjectContext.StaticDataServiceNamespace;
+using ProjectContext.StaticDataServiceNamespace.StaticData.LevelStaticData;
 using ProjectContext.WindowsManager;
+using SceneContext;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -13,12 +17,16 @@ namespace UI.Hud
     
         private TimeController _timeController;
         private GameWindowsManager _gameWindowsManager;
+        private WaveController _waveController;
+        private StaticDataService _staticDataService;
 
         [Inject]
-        private void Construct(TimeController timeController, GameWindowsManager gameWindowsManager)
+        private void Construct(TimeController timeController, GameWindowsManager gameWindowsManager, StaticDataService staticDataService, WaveController waveController)
         {
             _timeController = timeController;
             _gameWindowsManager = gameWindowsManager;
+            _staticDataService = staticDataService;
+            _waveController = waveController;
         }
     
         private void Awake()
@@ -35,6 +43,8 @@ namespace UI.Hud
 
         public override void Close()
         {
+            GameModelStaticData modelStaticData = _staticDataService.GetGameModelStaticData(GameModelName.GameModelTest);
+            _waveController.SetWavesCount(modelStaticData.StartWavesCount);
             _timeController.Play();
             gameObject.SetActive(false);
         }
