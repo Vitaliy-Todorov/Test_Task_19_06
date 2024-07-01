@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using Entities;
 using Infrastructure.DataServiceNamespace;
 using ProjectContext;
+using ProjectContext.StaticDataServiceNamespace;
 using ProjectContext.WindowsManager;
 using SceneContext;
 using TMPro;
@@ -29,7 +30,8 @@ namespace UI.Hud
         private BuildingCreationArea _buildingCreationArea;
 
         [Inject]
-        private void Construct(DataService dataService,
+        private void Construct(StaticDataService staticDataService,
+            DataService dataService,
             GameWindowsManager gameWindowsManager,
             WaveController waveController,
             Counter counter,

@@ -69,7 +69,7 @@ namespace SceneContext
 
         private void WaveStart(int waveNumber)
         {
-            float totalHPLevel = (float) _gameModelStaticData.MaxHealth * _waveController.WavesCount / 200;
+            float totalHPLevel = (float) _gameModelStaticData.MaxHealth * _waveController.WavesCount / _dataService.MaxLevel;
             if(waveNumber % _gameModelStaticData.WaveWithBoss == 0)
             {
                 GameObject enemyGO = _diContainer.InstantiatePrefab(_staticDataService.GetEntityStaticData(EntityType.Boss).Prefab, _gameModelStaticData.EnemiesSpawnPoint, Quaternion.identity);

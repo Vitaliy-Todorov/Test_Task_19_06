@@ -12,12 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96ed7e7a583e4787a8ed1b086ce4f1d5, type: 3}
   m_Name: GameModelStaticData
   m_EditorClassIdentifier: 
-  <FirstLaunchDate>k__BackingField: 82810
   <GameModelName>k__BackingField: 0
+  <MaxTime>k__BackingField: 2880
+  <StartWavesCount>k__BackingField: 0
+  <MaxHealth>k__BackingField: 9600
+  <MaxLevel>k__BackingField: 200
+  <BoosMaxLevel>k__BackingField: 400
   <TimeStartWaves>k__BackingField: 1
-  <TimeBetweenWaves>k__BackingField: 5
+  <TimeBetweenWaves>k__BackingField: 7
   <WaveWithBoss>k__BackingField: 3
   <TimeBetweenSpawn>k__BackingField: 1
-  <EnemiesCount>k__BackingField: 60
+  <EnemiesCount>k__BackingField: 5
   <EnemiesSpawnPoint>k__BackingField: {x: 5, y: -3, z: 0}
   <BuildingCost>k__BackingField: 2

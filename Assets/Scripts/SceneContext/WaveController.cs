@@ -28,8 +28,11 @@ namespace SceneContext
             WaveStart().Forget();
         }
 
-        public void SetWavesCount(int startWavesCount) => 
+        public void SetWavesCount(int startWavesCount)
+        {
             WavesCount = startWavesCount;
+            OnWavesDropped?.Invoke(WavesCount);
+        }
 
         public void DropOn(int howMuchToDrop)
         {

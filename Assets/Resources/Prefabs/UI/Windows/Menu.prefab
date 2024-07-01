@@ -705,6 +705,9 @@ MonoBehaviour:
   <EWindow>k__BackingField: 2
   _play: {fileID: 3214226929014851041}
   _exit: {fileID: 1992880137221727659}
+  _currentTime: {fileID: 0}
+  _currentTimeText: {fileID: 0}
+  _boostToggle: {fileID: 0}
 --- !u!223 &4389803354703834765
 Canvas:
   m_ObjectHideFlags: 0
