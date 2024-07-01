@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Entities.Enemies.Enemies;
+using Entities.HP;
+using Infrastructure.DataServiceNamespace;
 using Infrastructure.StaticDataServiceNamespace.StaticData.LevelStaticData;
 using ProjectContext;
 using ProjectContext.StaticDataServiceNamespace;
@@ -22,14 +24,20 @@ namespace SceneContext
 
         private DiContainer _diContainer;
         private StaticDataService _staticDataService;
+        private DataService _dataService;
         private WaveController _waveController;
         private TimeController _timeController;
         private GameModelStaticData _gameModelStaticData;
 
-        private EnemiesSpawner(DiContainer diContainer, StaticDataService staticDataService, WaveController waveController, TimeController timeController)
+        private EnemiesSpawner(DiContainer diContainer,
+            StaticDataService staticDataService,
+            DataService dataService,
+            WaveController waveController,
+            TimeController timeController)
         {
             _staticDataService = staticDataService;
             _diContainer = diContainer;
+            _dataService = dataService;
             _waveController = waveController;
             _timeController = timeController;
 
@@ -69,11 +77,13 @@ namespace SceneContext
 
         private async UniTask Spawn(int enemiesCount, Vector3 spawnPoints, float timeBetweenSpawn = 0)
         {
+            float hpEnemy = _dataService.TotalHPLevel() / enemiesCount;
             while (enemiesCount > 0)
             {
                 enemiesCount--;
-                _diContainer.InstantiatePrefab(_staticDataService.GetEntityStaticData(EntityType.Enemy).Prefab, spawnPoints, Quaternion.identity);
-                
+                GameObject enemyGO = _diContainer.InstantiatePrefab(_staticDataService.GetEntityStaticData(EntityType.Enemy).Prefab, spawnPoints, Quaternion.identity);
+                enemyGO.GetComponent<Health>().SetMaxHealth(hpEnemy);
+
                 _lastWaveStartTime = _timeController.CurrentTime;
                 await UniTask.WaitUntil(() => _timeController.CurrentTime - _lastWaveStartTime >= timeBetweenSpawn);
             }

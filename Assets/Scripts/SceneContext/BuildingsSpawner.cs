@@ -10,13 +10,13 @@ namespace SceneContext
     {
         private IInstantiator _instantiator;
 
-        public Dictionary<string, Transform> Buildings { get; }
+        public Dictionary<string, Building> Buildings { get; }
 
         private BuildingsSpawner(IInstantiator instantiator)
         {
             _instantiator = instantiator;
 
-            Buildings = new Dictionary<string, Transform>();
+            Buildings = new Dictionary<string, Building>();
         }
 
         public Building CreateBuild(GameObject buildingPrefab)
@@ -26,10 +26,15 @@ namespace SceneContext
             return building;
         }
 
-        public void BuildingWasDestroyed(string id) => 
+        public void BuildingDestroy(string id)
+        {
+            GameObject gameObject = Buildings[id].gameObject;
+            Debug.Log(gameObject);
+            GameObject.Destroy(gameObject);
             Buildings.Remove(id);
+        }
 
-        public void BuildingWasCreated(string id, Transform building) => 
+        public void BuildingWasCreated(string id, Building building) => 
             Buildings.Add(id, building);
     }
 }

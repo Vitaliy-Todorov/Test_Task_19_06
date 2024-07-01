@@ -23,20 +23,19 @@ namespace Entities.Building
         private void Awake()
         {
             ID = Guid.NewGuid().ToString();
-            _buildingsSpawner.BuildingWasCreated(ID, transform);
+            _buildingsSpawner.BuildingWasCreated(ID, this);
         }
 
         public override void DestroyEntity()
         {
             OnDestroyed?.Invoke(this);
-            _buildingsSpawner.BuildingWasDestroyed(ID);
-            Destroy(gameObject);
+            _buildingsSpawner.BuildingDestroy(ID);
         }
 
         public void Stack(Building building)
         {
             Level += building.Level;
-            Destroy(building.gameObject);
+            _buildingsSpawner.BuildingDestroy(building.ID);
         }
     }
 }

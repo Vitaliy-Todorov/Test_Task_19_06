@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using Entities.Building.Components;
+using Entities.HP;
+using Infrastructure.DataServiceNamespace;
 using SceneContext;
 using UnityEngine;
 using Zenject;
@@ -9,14 +11,21 @@ namespace Entities.Buildings.Components
     public class ShootingBuilding : MonoBehaviour
     {
         [SerializeField] private float _speedShooting;
+        [SerializeField] private Building.Building _building;
         [SerializeField] private MoveBuilding _moveBuilding;
         [SerializeField] private GameObject _bullet;
         [SerializeField] private Transform _gun;
 
+        private DataService _dataService;
         private EnemiesSpawner _enemiesSpawner;
+        
         private Transform _currentTarget;
 
-        [Inject] private void Construct(EnemiesSpawner enemiesSpawner) => _enemiesSpawner = enemiesSpawner;
+        [Inject] private void Construct(DataService dataService, EnemiesSpawner enemiesSpawner)
+        {
+            _dataService = dataService;
+            _enemiesSpawner = enemiesSpawner;
+        }
 
         private void Start() => 
             StartCoroutine(Shot());
@@ -33,9 +42,10 @@ namespace Entities.Buildings.Components
             {
                 if (_moveBuilding.IsPlace && _enemiesSpawner.Enemies.Count > 0)
                 {
-                    Transform bullet = Instantiate(_bullet, _gun.position, _gun.rotation).transform;
+                    GameObject bulletGO = Instantiate(_bullet, _gun.position, _gun.rotation);
+                    bulletGO.GetComponent<Damage>().SetDamage(_building.Level * _dataService.DPSOneLevelBuilding() * _speedShooting);
                     _currentTarget = GetNearestTarget();
-                    bullet.transform.rotation = Quaternion.LookRotation(Vector3.forward, _currentTarget.position - bullet.transform.position);
+                    bulletGO.transform.rotation = Quaternion.LookRotation(Vector3.forward, _currentTarget.position - bulletGO.transform.position);
                 }
 
                 yield return new WaitForSeconds(_speedShooting);

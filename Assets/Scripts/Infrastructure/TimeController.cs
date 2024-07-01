@@ -32,6 +32,9 @@ namespace ProjectContext
         {
             SetTimeSpeed(Time.timeScale);
             LoadFirstLaunchDate();
+            
+            FirstLaunchDate = DateTime.Now;
+            Debug.LogWarning("Убрать");
         }
 
         public void Pause()

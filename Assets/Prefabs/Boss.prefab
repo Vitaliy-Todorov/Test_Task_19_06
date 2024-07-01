@@ -31,14 +31,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6797322427447826168}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.44169855, w: 0.8971636}
-  m_LocalPosition: {x: 5.03, y: -3, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7508957026623086584}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -52.425}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6897079409227014454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <EnemyData>k__BackingField:
-    <PointsForDestruction>k__BackingField: 5
+    <PointsForDestruction>k__BackingField: 8
 --- !u!114 &7278175828371186384
 MonoBehaviour:
   m_ObjectHideFlags: 0

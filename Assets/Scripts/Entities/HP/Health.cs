@@ -18,5 +18,11 @@ namespace Entities.HP
 
         public void Regeneration() => 
             _value = _maxValue;
+
+        public void SetMaxHealth(float value)
+        {
+            _maxValue = value;
+            _value = value;
+        }
     }
 }

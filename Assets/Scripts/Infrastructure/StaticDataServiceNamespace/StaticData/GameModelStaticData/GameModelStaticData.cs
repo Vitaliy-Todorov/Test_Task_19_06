@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ProjectContext.StaticDataServiceNamespace.StaticData.LevelStaticData;
 using UnityEngine;
 
@@ -7,9 +8,10 @@ namespace Infrastructure.StaticDataServiceNamespace.StaticData.LevelStaticData
     [CreateAssetMenu(menuName = "StaticData/GameModel", fileName = "GameModelStaticData")]
     public class GameModelStaticData : ScriptableObject
     {
-        [field: SerializeField] public GameModelName GameModelName { get; private set; }
+        [field: SerializeField, Range(0,115200)] public float FirstLaunchDate { get; private set; }
+        [field: SerializeField, Space] public GameModelName GameModelName { get; private set; }
 
-        [field: SerializeField, Header("Wave")] public double TimeStartWaves { private set; get; }
+        [field: SerializeField, Header("Wave")] public double TimeStartWaves { get; private set; }
         [field: SerializeField] public double TimeBetweenWaves { get; private set; }
 
         [field: SerializeField, Header("EnemiesSpawner")] public int WaveWithBoss { private set; get; }
